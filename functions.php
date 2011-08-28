@@ -1,10 +1,12 @@
 <?php
-add_filter('post_link', 'hw_set_frontend_permalink', 11, 3);
-function hw_set_frontend_permalink($permalink, $post, $leavename) {
-    $here = get_bloginfo('url');
-    $there = get_option('frontend_url', '');
-    $permalink = preg_replace('{'.$here.'}', $there, $permalink);
-    return $permalink;
+add_filter( 'the_content_more_link', 'hw_set_frontend_permalink', 10, 2 );
+function hw_set_frontend_permalink( $more_link, $more_link_text ) {
+    global $post;
+    $permalink = get_permalink( $post->ID );
+    $blogurl = get_bloginfo('url');
+    $frontend = get_option('frontend_url', $blogurl);
+    $url = str_replace($blogurl, $frontend, $permalink);
+    return "<a href=\"{$url}\">" . $more_link_text . "</a>";
 }
 
 add_action( 'admin_menu', 'hw_add_options_page' );
