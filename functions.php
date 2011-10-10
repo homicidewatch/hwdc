@@ -6,7 +6,7 @@ function hw_set_frontend_permalink( $more_link, $more_link_text ) {
     $blogurl = get_bloginfo('url');
     $frontend = get_option('frontend_url', $blogurl);
     $url = str_replace($blogurl, $frontend, $permalink);
-    return "<a href=\"{$url}\">" . $more_link_text . "</a>";
+    return "<a class=\"more-link\" href=\"{$url}\">" . $more_link_text . "</a>";
 }
 
 add_action( 'admin_menu', 'hw_add_options_page' );
