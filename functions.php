@@ -17,7 +17,7 @@ function hw_permalink($permalink, $post, $leavename) {
     } else {
         $blogurl = get_bloginfo('url');
         $frontend = get_option('frontend_url', $blogurl);
-        $url = str_replace($blogurl, $frontend, $permalink);
+        $url = preg_replace('{'.$blogurl.'(/blog)?}', $frontend, $permalink);
         return $url;
     }
 }
@@ -44,8 +44,9 @@ function hw_redirect() {
     
     if (!is_user_logged_in()) {
         // redirect non-logged-in users to django frontend
-        $redirect_to = str_replace($blogurl, $frontend, $uri);
+        $redirect_to = preg_replace('{'.$blogurl.'(/blog)?}', $frontend, $uri);
         // error_log('Redirect to: ' . $redirect_to);
+        if ($redirect_to === $uri) return;
         wp_redirect($redirect_to, 301);
         exit;
     }
